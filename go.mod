@@ -1,3 +1,3 @@
-module github.com/cololi/MirrorGo
+module github.com/cololi/Hub-Proxy-Go
 
 go 1.22

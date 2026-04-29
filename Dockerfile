@@ -17,13 +17,13 @@ COPY internal/ ./internal/
 RUN CGO_ENABLED=0 GOOS=linux go build \
       -ldflags="-s -w" \
       -trimpath \
-      -o /out/mirror-go ./cmd/mirror-go/
+      -o /out/hub-proxy-go ./cmd/hub-proxy-go/
 
 # ---- runtime stage ----
 FROM gcr.io/distroless/static-debian12:nonroot
 
-COPY --from=builder /out/mirror-go /mirror-go
+COPY --from=builder /out/hub-proxy-go /hub-proxy-go
 
 EXPOSE 8080
 USER nonroot:nonroot
-ENTRYPOINT ["/mirror-go"]
+ENTRYPOINT ["/hub-proxy-go"]

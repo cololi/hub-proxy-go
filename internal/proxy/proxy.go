@@ -14,8 +14,8 @@ import (
 	"sync"
 	"time"
 
-	"github.com/cololi/MirrorGo/internal/config"
-	"github.com/cololi/MirrorGo/internal/matcher"
+	"github.com/cololi/Hub-Proxy-Go/internal/config"
+	"github.com/cololi/Hub-Proxy-Go/internal/matcher"
 )
 
 const maxRedirectDepth = 5
@@ -272,7 +272,7 @@ func isHopByHop(h string) bool {
 const defaultIndexHTML = `<!DOCTYPE html>
 <html lang="zh-CN"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>MirrorGo</title>
+<title>Hub-Proxy-Go</title>
 <style>
   body { font-family: system-ui, -apple-system, sans-serif; max-width: 720px;
          margin: 60px auto; padding: 0 24px; color: #222; }
@@ -287,7 +287,7 @@ const defaultIndexHTML = `<!DOCTYPE html>
         font-size: 13px; overflow-x: auto; }
 </style></head>
 <body>
-  <h1>MirrorGo - GitHub / Hugging Face 代理</h1>
+  <h1>Hub-Proxy-Go - GitHub / Hugging Face 代理</h1>
   <p>在下方输入 GitHub 或 Hugging Face 的 URL，然后按回车确认。</p>
   <form method="get" action="/">
     <input name="q" placeholder="https://github.com/user/repo/..." autofocus required>

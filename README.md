@@ -1,4 +1,4 @@
-# MirrorGo
+# Hub-Proxy-Go
 
 GitHub 和 Hugging Face 加速代理。支持 Git Clone、Release、Blob 以及大文件下载加速。
 
@@ -13,25 +13,25 @@ GitHub 和 Hugging Face 加速代理。支持 Git Clone、Release、Blob 以及�
 
 ### 1. 使用 Docker (GHCR)
 ```bash
-docker run -d --name mirror-go -p 8080:8080 --restart always ghcr.io/${GITHUB_USER}/mirrorgo:master
+docker run -d --name hub-proxy-go -p 8080:8080 --restart always ghcr.io/${GITHUB_USER}/hub-proxy-go:master
 ```
 > 请将 `${GITHUB_USER}` 替换为您的 GitHub 用户名。
 
 ### 2. 使用 systemd (Linux 推荐)
 
-1. 下载或编译 `mirror-go` 二进制文件：
+1. 下载或编译 `hub-proxy-go` 二进制文件：
    ```bash
    make build
-   sudo cp mirror-go /usr/local/bin/
+   sudo cp hub-proxy-go /usr/local/bin/
    ```
-2. 创建服务文件 `/etc/systemd/system/mirror-go.service`：
+2. 创建服务文件 `/etc/systemd/system/hub-proxy-go.service`：
    ```ini
    [Unit]
-   Description=MirrorGo Service
+   Description=Hub-Proxy-Go Service
    After=network.target
 
    [Service]
-   ExecStart=/usr/local/bin/mirror-go
+   ExecStart=/usr/local/bin/hub-proxy-go
    Restart=always
    User=root
 
@@ -41,7 +41,7 @@ docker run -d --name mirror-go -p 8080:8080 --restart always ghcr.io/${GITHUB_US
 3. 启动并启用服务：
    ```bash
    sudo systemctl daemon-reload
-   sudo systemctl enable --now mirror-go
+   sudo systemctl enable --now hub-proxy-go
    ```
 
 ### 3. 本地编译运行
