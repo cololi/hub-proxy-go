@@ -1,52 +1,15 @@
-# 部署指南
+# Cloudflare Workers 部署注意事项
 
-本项目支持多种部署方式。
+使用 Cloudflare Workers 部署本项目（代码位于 `deployments/cloudflare-worker.js`）时，请注意以下几点：
 
-## 1. Cloudflare Workers 部署
+### 1. 优势
+- **全球加速**：利用 Cloudflare 的边缘网络实现极速访问。
+- **自动 LFS 重定向**：Workers 可以更智能地处理部分大文件的重定向逻辑。
+- **零成本维护**：每日 10 万次免费额度适合个人使用。
 
-Cloudflare Workers 是最推荐的部署方式，具有全球加速和自动处理 LFS 重定向的优势。
+### 2. 配置说明
+- **ASSET_URL**：脚本中定义了首页 HTML 的来源，您可以修改它或保持默认。
+- **自定义域名**：强烈建议绑定您的自定义域名。由于 `workers.dev` 域名在某些地区可能访问不稳定。
 
-- **代码文件**: `deployments/cloudflare-worker.js`
-- **部署步骤**:
-  1. 登录 [Cloudflare 控制台](https://dash.cloudflare.com/)。
-  2. 创建一个新的 Worker。
-  3. 将 `deployments/cloudflare-worker.js` 中的内容粘贴到编辑器中。
-  4. (可选) 在 设置 (Settings) -> 变量 (Variables) 中配置 `WHITE_LIST` 等环境变量。
-  5. 绑定你的自定义域名以获得更稳定的访问。
-
-## 2. Docker 部署
-
-适合在自己的服务器或容器云平台上运行。
-
-- **构建镜像**:
-  ```bash
-  docker build -t mirror-go:go .
-  ```
-- **运行容器**:
-  ```bash
-  docker run -d --name mirror-go -p 8080:8080 -e JSDELIVR=true mirror-go:go
-  ```
-
-## 3. 直接运行 (Go 二进制)
-
-适合直接在 Linux/macOS/Windows 服务器上作为系统服务运行。
-
-- **编译**:
-  ```bash
-  go build -ldflags="-s -w" -trimpath -o mirror-go ./cmd/mirror-go
-  ```
-- **运行**:
-  ```bash
-  LISTEN=:8080 ./mirror-go
-  ```
-
-## 环境变量说明
-
-| 变量 | 默认值 | 说明 |
-| --- | --- | --- |
-| `LISTEN` | `:8080` | 监听地址 (仅限 Go 版本) |
-| `ASSET_URL` | `https://hunshcn.github.io/mirror-go` | 首页 HTML 来源 |
-| `JSDELIVR` | `false` | 是否开启 jsDelivr 加速 |
-| `WHITE_LIST` | 空 | 白名单 (多行) |
-| `BLACK_LIST` | 空 | 黑名单 (多行) |
-| `PASS_LIST` | 空 | 穿透名单 (多行) |
+### 3. 局限性
+- **文件大小限制**：Workers 对响应体大小有一定限制（免费版通常为 50MB-100MB），超出部分可能会导致连接中断。对于超大文件，建议使用本项目提供的 **Go 二进制版本** 部署。

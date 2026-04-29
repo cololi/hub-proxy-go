@@ -35,5 +35,25 @@ jobs:
         with:
           files: |
             bin/*
-          generate_release_notes: true
+          body: |
+            ## Hub-Proxy-Go 发布说明
+            
+            这是 Hub-Proxy-Go 的自动编译发布版本。
+            
+            ### 主要功能
+            - 支持 GitHub 和 Hugging Face 资源加速。
+            - 自动转换 GitHub `blob` 链接为 `raw` 直链。
+            - 极低内存占用（典型 RSS 约 10MB）。
+            - 支持 Docker 和 systemd (用户态) 快速部署。
+            
+            ### 包含的文件
+            - `hub-proxy-go-linux-amd64`: Linux x64 二进制文件。
+            - `hub-proxy-go-linux-arm64`: Linux ARM64 二进制文件。
+            - `checksums.txt`: SHA256 校验和。
+            
+            ### 安装建议
+            推荐使用 README 中的一键安装脚本进行部署：
+            ```bash
+            curl -sSL https://raw.githubusercontent.com/cololi/Hub-Proxy-Go/master/scripts/install.sh | bash
+            ```
           token: ${{ secrets.GITHUB_TOKEN }}
