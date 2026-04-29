@@ -11,11 +11,19 @@ GitHub 和 Hugging Face 加速代理。支持 Git Clone、Release、Blob 以及�
 
 ## 快速开始
 
-### 1. 使用 Docker (GHCR)
+### 1. 使用 Docker
+
+镜像同时发布在 GHCR 和 Docker Hub：
+
+**Docker Hub:**
+```bash
+docker run -d --name hub-proxy-go -p 8080:8080 --restart always ${DOCKERHUB_USER}/hub-proxy-go:master
+```
+
+**GHCR:**
 ```bash
 docker run -d --name hub-proxy-go -p 8080:8080 --restart always ghcr.io/${GITHUB_USER}/hub-proxy-go:master
 ```
-> 请将 `${GITHUB_USER}` 替换为您的 GitHub 用户名。
 
 ### 2. 使用 systemd (Linux 推荐)
 
