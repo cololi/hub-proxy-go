@@ -23,7 +23,7 @@ GitHub 和 Hugging Face 加速代理的 Go 重写版本。支持 Git Clone、Rel
 
 ### 1. 使用 Docker
 ```bash
-docker run -d --name gh-proxy -p 8080:8080 cololi/gh-proxy:latest
+docker run -d --name gh-proxy -p 8080:8080 --restart always cololi/gh-proxy:latest
 ```
 
 ### 2. 本地编译运行
