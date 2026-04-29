@@ -1,0 +1,8 @@
+gh-proxy
+*.test
+*_test.go
+.git
+.gitignore
+README.md
+Dockerfile
+.dockerignore
