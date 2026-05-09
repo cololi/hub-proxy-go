@@ -136,10 +136,16 @@ func (p *Proxy) streamProxy(
 	}
 
 	for k, vs := range headers {
+		// 跳过 Host 和逐跳请求头
 		if strings.EqualFold(k, "Host") || isHopByHop(k) {
 			continue
 		}
 		req.Header[k] = vs
+	}
+
+	// 如果 User-Agent 为空，设置默认的以避免部分上游拦截
+	if req.Header.Get("User-Agent") == "" {
+		req.Header.Set("User-Agent", "Hub-Proxy-Go/1.0")
 	}
 
 	resp, err := p.client.Do(req)
@@ -160,11 +166,27 @@ func (p *Proxy) streamProxy(
 
 	if resp.StatusCode >= 300 && resp.StatusCode < 400 {
 		if loc := resp.Header.Get("Location"); loc != "" {
+			// 处理相对路径重定向
+			if !strings.HasPrefix(loc, "http") {
+				base, _ := url.Parse(target)
+				locURL, _ := base.Parse(loc)
+				loc = locURL.String()
+			}
+
 			if matcher.MatchURL(loc) != nil {
-				resp.Header.Set("Location", "/"+loc)
+				w.Header().Set("Location", "/"+loc)
+				w.WriteHeader(resp.StatusCode)
+				return
 			} else {
 				drainAndClose(resp.Body)
-				p.streamProxy(w, ctx, loc, http.MethodGet, http.NoBody, headers, depth+1)
+				// 跨域重定向时清理敏感头
+				newHeaders := make(http.Header)
+				for k, v := range headers {
+					if !isSensitiveHeader(k) {
+						newHeaders[k] = v
+					}
+				}
+				p.streamProxy(w, ctx, loc, http.MethodGet, http.NoBody, newHeaders, depth+1)
 				return
 			}
 		}
@@ -193,17 +215,21 @@ func drainAndClose(r io.ReadCloser) {
 }
 
 func normalizeURL(u string) string {
+	if strings.HasPrefix(u, "https:/") && !strings.HasPrefix(u, "https://") {
+		return "https://" + u[7:]
+	}
+	if strings.HasPrefix(u, "http:/") && !strings.HasPrefix(u, "http://") {
+		return "http://" + u[6:]
+	}
 	if !strings.HasPrefix(u, "http") {
-		u = "https://" + u
-	}
-	upper := 9
-	if len(u) < upper {
-		upper = len(u)
-	}
-	if !strings.Contains(u[:upper], "://") {
-		u = strings.Replace(u, "s:/", "s://", 1)
+		return "https://" + u
 	}
 	return u
+}
+
+func isSensitiveHeader(h string) bool {
+	// h 预期已经是规范化的（来自 http.Header）
+	return h == "Authorization" || h == "Cookie" || h == "Set-Cookie"
 }
 
 var hopByHopHeaders = map[string]struct{}{
@@ -219,7 +245,7 @@ var hopByHopHeaders = map[string]struct{}{
 }
 
 func isHopByHop(h string) bool {
-	_, ok := hopByHopHeaders[http.CanonicalHeaderKey(h)]
+	_, ok := hopByHopHeaders[h]
 	return ok
 }
 

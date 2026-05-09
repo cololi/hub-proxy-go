@@ -20,17 +20,26 @@ var (
 	expHFGit            = regexp.MustCompile(`^(?:https?://)?huggingface\.co/([^/]+?)/([^/]+?)/(?:info|git-|resolve|raw|blob)/.*$`)
 	expHFGitRoot        = regexp.MustCompile(`^(?:https?://)?huggingface\.co/([^/]+?)/(?:info|git-|resolve|raw|blob)/.*$`)
 
-	allExps = []*regexp.Regexp{
-		expRelease, expBlob, expGit, expRaw, expGist,
+	ghExps = []*regexp.Regexp{expRelease, expBlob, expGit, expRaw, expGist}
+	hfExps = []*regexp.Regexp{
 		expHFDatasetGit, expHFDatasetGitRoot, expHFSpacesGit, expHFGit, expHFGitRoot,
 	}
 )
 
 // MatchURL 在匹配成功时返回捕获的分组（user[, repo]），否则返回 nil。
 func MatchURL(u string) []string {
-	for _, exp := range allExps {
-		if m := exp.FindStringSubmatch(u); m != nil {
-			return m[1:]
+	if strings.Contains(u, "github") {
+		for _, exp := range ghExps {
+			if m := exp.FindStringSubmatch(u); m != nil {
+				return m[1:]
+			}
+		}
+	}
+	if strings.Contains(u, "huggingface.co") {
+		for _, exp := range hfExps {
+			if m := exp.FindStringSubmatch(u); m != nil {
+				return m[1:]
+			}
 		}
 	}
 	return nil
