@@ -22,9 +22,13 @@ func TestMatchURL(t *testing.T) {
 		{"gist", "https://gist.githubusercontent.com/user/abcdef/raw/file.txt", []string{"user"}},
 		{"no scheme", "github.com/user/repo/releases/v1/x", []string{"user", "repo"}},
 		{"http scheme", "http://github.com/user/repo/blob/main/x", []string{"user", "repo"}},
+		{"github root", "https://github.com/user/repo", []string{"user", "repo"}},
+		{"github tree", "https://github.com/user/repo/tree/main", []string{"user", "repo"}},
+		{"github tag", "https://github.com/user/repo/tag/v1.0", []string{"user", "repo"}},
+		{"www github", "https://www.github.com/user/repo", []string{"user", "repo"}},
+		{"hf repo", "https://huggingface.co/user/repo", []string{"user", "repo"}},
+		{"hf model", "https://huggingface.co/gpt2", []string{"gpt2", ""}},
 		{"non-github", "https://example.com/user/repo/blob/main/x", nil},
-		{"github root", "https://github.com/user/repo", nil},
-		{"github tree", "https://github.com/user/repo/tree/main", nil},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {

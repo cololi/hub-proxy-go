@@ -7,22 +7,25 @@ import (
 )
 
 var (
-	expRelease = regexp.MustCompile(`^(?:https?://)?github\.com/([^/]+?)/([^/]+?)/(?:releases|archive)/.*$`)
-	expBlob    = regexp.MustCompile(`^(?:https?://)?github\.com/([^/]+?)/([^/]+?)/(?:blob|raw)/.*$`)
-	expGit     = regexp.MustCompile(`^(?:https?://)?github\.com/([^/]+?)/([^/]+?)/(?:info|git-).*$`)
+	expRelease = regexp.MustCompile(`^(?:https?://)?(?:www\.)?github\.com/([^/]+?)/([^/]+?)/(?:releases|archive)/.*$`)
+	expBlob    = regexp.MustCompile(`^(?:https?://)?(?:www\.)?github\.com/([^/]+?)/([^/]+?)/(?:blob|raw)/.*$`)
+	expGit     = regexp.MustCompile(`^(?:https?://)?(?:www\.)?github\.com/([^/]+?)/([^/]+?)/(?:info|git-).*$`)
+	expTree    = regexp.MustCompile(`^(?:https?://)?(?:www\.)?github\.com/([^/]+?)/([^/]+?)/(?:tree|tag)/.*$`)
+	expRepo    = regexp.MustCompile(`^(?:https?://)?(?:www\.)?github\.com/([^/]+?)/([^/]+?)/?$`)
 	expRaw     = regexp.MustCompile(`^(?:https?://)?raw\.(?:githubusercontent|github)\.com/([^/]+?)/([^/]+?)/.+?/.+$`)
 	expGist    = regexp.MustCompile(`^(?:https?://)?gist\.(?:githubusercontent|github)\.com/([^/]+?)/.+?/.+$`)
 
 	// Hugging Face 匹配器
-	expHFDatasetGit     = regexp.MustCompile(`^(?:https?://)?huggingface\.co/(datasets/[^/]+?)/([^/]+?)/(?:info|git-|resolve|raw|blob)/.*$`)
-	expHFDatasetGitRoot = regexp.MustCompile(`^(?:https?://)?huggingface\.co/(datasets/[^/]+?)/(?:info|git-|resolve|raw|blob)/.*$`)
-	expHFSpacesGit      = regexp.MustCompile(`^(?:https?://)?huggingface\.co/(spaces/[^/]+?)/([^/]+?)/(?:info|git-|resolve|raw|blob)/.*$`)
-	expHFGit            = regexp.MustCompile(`^(?:https?://)?huggingface\.co/([^/]+?)/([^/]+?)/(?:info|git-|resolve|raw|blob)/.*$`)
-	expHFGitRoot        = regexp.MustCompile(`^(?:https?://)?huggingface\.co/([^/]+?)/(?:info|git-|resolve|raw|blob)/.*$`)
+	expHFDatasetGit     = regexp.MustCompile(`^(?:https?://)?(?:www\.)?huggingface\.co/(datasets/[^/]+?)/([^/]+?)/(?:info|git-|resolve|raw|blob)/.*$`)
+	expHFDatasetGitRoot = regexp.MustCompile(`^(?:https?://)?(?:www\.)?huggingface\.co/(datasets/[^/]+?)/(?:info|git-|resolve|raw|blob)/.*$`)
+	expHFSpacesGit      = regexp.MustCompile(`^(?:https?://)?(?:www\.)?huggingface\.co/(spaces/[^/]+?)/([^/]+?)/(?:info|git-|resolve|raw|blob)/.*$`)
+	expHFGit            = regexp.MustCompile(`^(?:https?://)?(?:www\.)?huggingface\.co/([^/]+?)/([^/]+?)/(?:info|git-|resolve|raw|blob)/.*$`)
+	expHFGitRoot        = regexp.MustCompile(`^(?:https?://)?(?:www\.)?huggingface\.co/([^/]+?)/(?:info|git-|resolve|raw|blob)/.*$`)
+	expHFRepo           = regexp.MustCompile(`^(?:https?://)?(?:www\.)?huggingface\.co/([^/]+?)(?:/([^/]+?))?/?$`)
 
-	ghExps = []*regexp.Regexp{expRelease, expBlob, expGit, expRaw, expGist}
+	ghExps = []*regexp.Regexp{expRelease, expBlob, expGit, expTree, expRepo, expRaw, expGist}
 	hfExps = []*regexp.Regexp{
-		expHFDatasetGit, expHFDatasetGitRoot, expHFSpacesGit, expHFGit, expHFGitRoot,
+		expHFDatasetGit, expHFDatasetGitRoot, expHFSpacesGit, expHFGit, expHFGitRoot, expHFRepo,
 	}
 )
 
