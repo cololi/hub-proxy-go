@@ -15,7 +15,9 @@ func TestMatchHFURL(t *testing.T) {
 		{"hf user model git info", "https://huggingface.co/user/repo/info/refs", []string{"user", "repo"}},
 		{"hf dataset git info", "https://huggingface.co/datasets/user/repo/info/refs", []string{"datasets/user", "repo"}},
 		{"hf dataset root git info", "https://huggingface.co/datasets/glue/info/refs", []string{"datasets/glue"}},
+		{"hf model root git upload pack", "https://huggingface.co/gpt2/git-upload-pack", []string{"gpt2"}},
 		{"hf space git info", "https://huggingface.co/spaces/user/repo/info/refs", []string{"spaces/user", "repo"}},
+		{"hf model git upload pack", "https://huggingface.co/user/repo/git-upload-pack", []string{"user", "repo"}},
 		{"hf model resolve", "https://huggingface.co/user/repo/resolve/main/config.json", []string{"user", "repo"}},
 		{"hf model blob", "https://huggingface.co/user/repo/blob/main/README.md", []string{"user", "repo"}},
 	}

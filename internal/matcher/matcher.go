@@ -16,11 +16,11 @@ var (
 	expGist    = regexp.MustCompile(`^(?:https?://)?gist\.(?:githubusercontent|github)\.com/([^/]+?)/.+?/.+$`)
 
 	// Hugging Face 匹配器
-	expHFDatasetGit     = regexp.MustCompile(`^(?:https?://)?(?:www\.)?huggingface\.co/(datasets/[^/]+?)/([^/]+?)/(?:info|git-|resolve|raw|blob)/.*$`)
-	expHFDatasetGitRoot = regexp.MustCompile(`^(?:https?://)?(?:www\.)?huggingface\.co/(datasets/[^/]+?)/(?:info|git-|resolve|raw|blob)/.*$`)
-	expHFSpacesGit      = regexp.MustCompile(`^(?:https?://)?(?:www\.)?huggingface\.co/(spaces/[^/]+?)/([^/]+?)/(?:info|git-|resolve|raw|blob)/.*$`)
-	expHFGit            = regexp.MustCompile(`^(?:https?://)?(?:www\.)?huggingface\.co/([^/]+?)/([^/]+?)/(?:info|git-|resolve|raw|blob)/.*$`)
-	expHFGitRoot        = regexp.MustCompile(`^(?:https?://)?(?:www\.)?huggingface\.co/([^/]+?)/(?:info|git-|resolve|raw|blob)/.*$`)
+	expHFDatasetGit     = regexp.MustCompile(`^(?:https?://)?(?:www\.)?huggingface\.co/(datasets/[^/]+?)/([^/]+?)/(?:info|git-|resolve|raw|blob).*$`)
+	expHFDatasetGitRoot = regexp.MustCompile(`^(?:https?://)?(?:www\.)?huggingface\.co/(datasets/[^/]+?)/(?:info|git-|resolve|raw|blob).*$`)
+	expHFSpacesGit      = regexp.MustCompile(`^(?:https?://)?(?:www\.)?huggingface\.co/(spaces/[^/]+?)/([^/]+?)/(?:info|git-|resolve|raw|blob).*$`)
+	expHFGit            = regexp.MustCompile(`^(?:https?://)?(?:www\.)?huggingface\.co/([^/]+?)/([^/]+?)/(?:info|git-|resolve|raw|blob).*$`)
+	expHFGitRoot        = regexp.MustCompile(`^(?:https?://)?(?:www\.)?huggingface\.co/([^/]+?)/(?:info|git-|resolve|raw|blob).*$`)
 	expHFRepo           = regexp.MustCompile(`^(?:https?://)?(?:www\.)?huggingface\.co/([^/]+?)(?:/([^/]+?))?/?$`)
 
 	ghExps = []*regexp.Regexp{expRelease, expBlob, expGit, expTree, expRepo, expRaw, expGist}
